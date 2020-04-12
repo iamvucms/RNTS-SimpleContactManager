@@ -55,7 +55,6 @@ const AddContact = (props: Props): JSX.Element => {
                 email: email,
                 mobile: mobile,
                 phone: phone,
-                isNewContact: true
             }
             contacts.push(newContact)
             setMyContacts(contacts)

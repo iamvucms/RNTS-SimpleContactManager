@@ -131,47 +131,37 @@ const ContactDetail = ({ navigation, route }: ContactDetailProps): JSX.Element =
                 </View>
                 <View style={styles.infoLine}>
                     <View style={styles.iconWrapper}>
-                        <Ionicons name="ios-home" size={30} color="#333" />
+                        <Ionicons name="ios-car" size={30} color="#333" />
                     </View>
                     <Text style={{
                         marginLeft: 10,
                         fontSize: 16,
                         fontWeight: '500'
-                    }}>{contact.phone}</Text>
+                    }}>{contact.street}</Text>
                 </View>
                 <View style={styles.infoLine}>
                     <View style={styles.iconWrapper}>
-                        <Ionicons name="ios-home" size={30} color="#333" />
+                        <Ionicons name="ios-business" size={30} color="#333" />
                     </View>
                     <Text style={{
                         marginLeft: 10,
                         fontSize: 16,
                         fontWeight: '500'
-                    }}>{contact.phone}</Text>
+                    }}>{contact.district}</Text>
                 </View>
                 <View style={styles.infoLine}>
                     <View style={styles.iconWrapper}>
-                        <Ionicons name="ios-home" size={30} color="#333" />
+                        <Ionicons name="ios-map" size={30} color="#333" />
                     </View>
                     <Text style={{
                         marginLeft: 10,
                         fontSize: 16,
                         fontWeight: '500'
-                    }}>{contact.phone}</Text>
+                    }}>{contact.city}</Text>
                 </View>
                 <View style={styles.infoLine}>
                     <View style={styles.iconWrapper}>
-                        <Ionicons name="ios-home" size={30} color="#333" />
-                    </View>
-                    <Text style={{
-                        marginLeft: 10,
-                        fontSize: 16,
-                        fontWeight: '500'
-                    }}>{contact.phone}</Text>
-                </View>
-                <View style={styles.infoLine}>
-                    <View style={styles.iconWrapper}>
-                        <Ionicons name="ios-home" size={30} color="#333" />
+                        <Ionicons name="ios-code" size={30} color="#333" />
                     </View>
                     <Text style={{
                         marginLeft: 10,
@@ -214,7 +204,7 @@ const styles = StyleSheet.create({
     btnLeftOption: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginHorizontal: 2.5
+        marginHorizontal: 5
     },
     leftOptionsWrapper: {
         marginRight: 15,
