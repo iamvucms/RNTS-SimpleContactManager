@@ -9,13 +9,15 @@ interface TextFiledProps {
     refx: RefObject<TextInput>,
     placeHolder: string,
     highlightColor: 'red' | 'tomato' | 'greeen',
-    inputStyle?: TextStyle
+    inputStyle?: TextStyle,
+    defaultValue?: string
 }
 const TextFieldInput = ({ setState, refx, inputStyle,
-    placeHolder, highlightColor }: TextFiledProps) => {
+    placeHolder, highlightColor, defaultValue }: TextFiledProps) => {
     const [bottomBorderColor, setbottomBorderColor] = useState('#333')
     const [bottomBorderWidth, setBottomBorderWidth] = useState(1)
     const debounce = useRef(0)
+    setState(defaultValue || '')
     const onFocusHandler = (event?: NativeSyntheticEvent<TextInputFocusEventData>): void => {
         setbottomBorderColor(highlightColor)
         setBottomBorderWidth(2)
@@ -26,12 +28,11 @@ const TextFieldInput = ({ setState, refx, inputStyle,
     }
     const onChangeTextHandler = (text: string): void => {
         clearTimeout(debounce.current)
-        debounce.current = setTimeout(() => {
-            setState(text)
-        }, 450);
+        setState(text)
     }
     return (
         <TextInput
+            value={defaultValue || ''}
             onChangeText={onChangeTextHandler}
             ref={refx}
             onBlur={onBlurHandler}

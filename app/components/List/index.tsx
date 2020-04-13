@@ -3,6 +3,8 @@ import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { navigation } from '../../../rootNavigation'
 import ListItem, { ListItemProps } from './ListItem'
+import { template } from '@babel/core'
+import { useRef } from 'react'
 interface ListProps {
     title: 'Contacts List' | 'People List',
     limit: number | false
@@ -156,6 +158,7 @@ const index = ({ title, limit }: ListProps) => {
             street: '123 ABC',
         }
     ]
+    const scrollRef = useRef<ScrollView>(null)
     const [myContacts, setMyContacts] = useState(list)
     const onPressAddContactHandler = (): void => {
         navigation.navigate('AddContact', {
@@ -163,12 +166,27 @@ const index = ({ title, limit }: ListProps) => {
             myContacts
         })
     }
+    const _onDeleteHandler = (index: number): void => {
+        scrollRef.current?.scrollTo({
+            x: 0,
+            y: 0,
+            animated: false
+        })
+        let tempList = [...myContacts]
+        tempList.splice(index, 1)
+
+        setMyContacts(tempList)
+    }
+    const _onModifyHandler = (index: number, item: ListItemProps): void => {
+        let tempList = [...myContacts]
+        tempList[index] = item
+        setMyContacts(tempList)
+    }
     let displayContacts;
     if (!limit) displayContacts = [...myContacts]
     else displayContacts = [...myContacts].splice(0, limit);
     return (
         <View style={styles.container}>
-            {console.log("render home")}
             <View style={styles.titleWrapper}>
                 <Text style={{
                     fontWeight: '600',
@@ -176,11 +194,15 @@ const index = ({ title, limit }: ListProps) => {
                 }}>{title}</Text>
             </View>
             <ScrollView
+                ref={scrollRef}
                 scrollEventThrottle={70}
                 bounces={false}
                 style={styles.listItemsWrapper}>
                 {displayContacts.map((contact, index) => (
                     <ListItem
+                        onModifyHandler={_onModifyHandler}
+                        onDeleteHandler={_onDeleteHandler}
+                        index={index}
                         key={index}
                         email={contact.email}
                         city={contact.city}

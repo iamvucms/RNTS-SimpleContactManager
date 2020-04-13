@@ -14,7 +14,9 @@ export interface ContactDetailRouteParams {
         y: number,
         width: number,
         height: number
-    }
+    },
+    onDeleteHandler: Function,
+    onModifyHandler: Function
 }
 type ContactDetailRouteProp = RouteProp<RootStackParamList, 'ContactDetail'>;
 type ContactDetailNavigationProp = StackNavigationProp<
@@ -28,7 +30,8 @@ type ContactDetailProps = {
 };
 const ContactDetail = ({ navigation, route }: ContactDetailProps): JSX.Element => {
     const [isAnimating, setisAnimating] = useState(true)
-    const { contact, preImagePosition } = route.params
+    const { contact, preImagePosition,
+        onDeleteHandler, onModifyHandler } = route.params
     const positionX = useRef<Animated.Value>(new Animated.Value(preImagePosition.x))
     const positionY = useRef<Animated.Value>(new Animated.Value(preImagePosition.y))
     const preWidth = useRef<Animated.Value>(new Animated.Value(preImagePosition.width))
@@ -41,7 +44,17 @@ const ContactDetail = ({ navigation, route }: ContactDetailProps): JSX.Element =
 
         }
     }, [])
-    const onPressGoBackHandler = (): void => {
+    const _onPressEditHandler = (): void => {
+        navigation.navigate('EditContact', {
+            contact,
+            onModifyHandler: onModifyHandler
+        })
+    }
+    const _onPressDeleteHandler = (): void => {
+        onDeleteHandler(contact.index)
+        navigation.goBack()
+    }
+    const _onPressGoBackHandler = (): void => {
         setisAnimating(true)
         AnimateBack(contentOpacity, preBorderRadius, navigation, positionX, preImagePosition, setisAnimating, positionY, preWidth, preHeight);
     }
@@ -66,15 +79,15 @@ const ContactDetail = ({ navigation, route }: ContactDetailProps): JSX.Element =
                     }}>
                         <LinearGradient style={{ ...styles.navigationBar }} colors={['rgba(0,0,0,0.5)', 'rgba(0,0,0,0.2)', 'rgba(0,0,0,0.1)']} >
                             <TouchableOpacity
-                                onPress={onPressGoBackHandler}
+                                onPress={_onPressGoBackHandler}
                                 style={styles.btnOption}>
                                 <Ionicons name="ios-arrow-back" size={30} color="#fff" />
                             </TouchableOpacity>
                             <View style={styles.leftOptionsWrapper}>
-                                <TouchableOpacity style={styles.btnLeftOption}>
+                                <TouchableOpacity onPress={_onPressEditHandler} style={styles.btnLeftOption}>
                                     <Ionicons name="ios-create" size={24} color="#fff" />
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.btnLeftOption}>
+                                <TouchableOpacity onPress={_onPressDeleteHandler} style={styles.btnLeftOption}>
                                     <Ionicons name="ios-trash" size={24} color="#fff" />
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.btnLeftOption}>
@@ -181,7 +194,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         width: '100%',
         height: '100%',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
     },
     navigationBar: {
         height: 94,

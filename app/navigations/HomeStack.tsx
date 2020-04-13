@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import AddContact, { AddContactRouteParams } from '../screens/AddContact'
+import EditContact, { EditContactRouteParams } from '../screens/EditContact'
 import ContactDetail, { ContactDetailRouteParams } from '../screens/ContactDetail'
 import Home from '../screens/Home'
 import { createStackNavigator, StackNavigationOptions, TransitionPresets, TransitionSpecs } from '@react-navigation/stack';
@@ -9,6 +10,7 @@ export type RootStackParamList = {
     Home: undefined;
     ContactDetail: ContactDetailRouteParams;
     AddContact: AddContactRouteParams;
+    EditContact: EditContactRouteParams
 };
 const stack = createStackNavigator()
 const HomeStack = () => {
@@ -22,6 +24,8 @@ const HomeStack = () => {
                 component={AddContact} name="AddContact" />
             <stack.Screen options={{ animationEnabled: false }}
                 component={ContactDetail} name="ContactDetail" />
+            <stack.Screen options={{}}
+                component={EditContact} name="EditContact" />
         </stack.Navigator>
     )
 }

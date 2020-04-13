@@ -9,10 +9,11 @@ interface TextFiledProps {
     placeHolder: string | string[],
     iconLabelName: string,
     highlightColor: 'red' | 'tomato' | 'greeen',
-    inputStyle?: TextStyle
+    inputStyle?: TextStyle,
+    defaultValue?: string[]
 }
 const TextFiled = ({ inputSetStates, refs, placeHolder, highlightColor,
-    iconLabelName, inputStyle }: TextFiledProps) => {
+    iconLabelName, inputStyle, defaultValue }: TextFiledProps) => {
     const overrideStyle = inputStyle ? inputStyle : {}
     return (
         <View style={styles.formGroup}>
@@ -22,6 +23,7 @@ const TextFiled = ({ inputSetStates, refs, placeHolder, highlightColor,
             <View style={styles.inputWrapper}>
                 {typeof placeHolder === 'string' ? (
                     <TextFieldInput
+                        defaultValue={defaultValue ? defaultValue[0] : ''}
                         setState={inputSetStates[0]}
                         refx={refs[0]}
                         highlightColor={highlightColor}
@@ -30,6 +32,7 @@ const TextFiled = ({ inputSetStates, refs, placeHolder, highlightColor,
                 ) : (<>
                     {placeHolder.map((placeText: string, index: number) => (
                         <TextFieldInput
+                            defaultValue={defaultValue ? defaultValue[index] : ''}
                             setState={inputSetStates[index]}
                             key={index}
                             refx={refs[index]}

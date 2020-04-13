@@ -5,6 +5,7 @@ import { ContactDetailRouteParams } from '../../screens/ContactDetail'
 
 export interface ListItemProps {
     id: number,
+    index?: number,
     avatar_url: string,
     name: string,
     phone: string,
@@ -13,23 +14,29 @@ export interface ListItemProps {
     street: string,
     zipcode: string,
     district: string,
+    onDeleteHandler?: Function,
+    onModifyHandler?: Function,
     city: string,
     scrollOffsetY?: RefObject<number> | undefined
 }
 const ListItem = ({
     id, avatar_url,
+    index,
     name, phone, mobile,
     street, zipcode, district,
-    city, email }: ListItemProps): JSX.Element => {
+    city, email, onDeleteHandler,
+    onModifyHandler }: ListItemProps): JSX.Element => {
     const imageRef = useRef<Image>(null)
     const onPressItemHandler = () => {
         imageRef.current?.measure((fx, fy, widthx, heightx, px, py) => {
             const transferData: ContactDetailRouteParams = {
                 contact: {
-                    id, avatar_url, name, phone, mobile,
+                    id, index, avatar_url, name, phone, mobile,
                     street, zipcode, district,
                     city, email
                 },
+                onDeleteHandler: onDeleteHandler || Function,
+                onModifyHandler: onModifyHandler || Function,
                 preImagePosition: {
                     x: px,
                     y: py,
